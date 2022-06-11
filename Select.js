@@ -1,29 +1,54 @@
-"use strict";
+'use strict';
 
+/**
+ * Creates a custom select box.
+ * @class Select.
+ * @public
+ * @param {options} [options] - The options HTML Element -> <option></option>
+ * @param {parent} [parent] -Parentelement, where to insert the created HTML
+ * @param {config: {autofocus: boolean, disabled: boolean, multiple: boolean, required: boolean, size: boolean}} - configuartion of the custom select box
+ */
 class Select {
-    constructor(config, options) {
-        this.config = config
-        this.options = options
+    selected;
+    #parentEl;
+
+    constructor(options, parentEl, config) {
+        this.options = options;
+        this.#parentEl = parentEl;
+        this.config = config;
+        this.init();
     }
 
-    init() {}
+    init() {
+        console.log(this.options);
+        this.insertToDOM();
+    }
 
-    setSelected () {}
+    setSelected() {}
 
-    getSelected () {}
+    getSelected() {}
 
-    createMarkup () {
+    createMarkup() {
         return `
-            <div>
-
-            </div>
-        `
+        <div class="custom-select">
+            ${this.options
+                .map((option) => {
+                    return `
+                    <div data-value="${option.value}">
+                        ${option.innerText}
+                    </div>
+                `;
+                })
+                .join('')}
+        </div>
+    `;
     }
 
-    insertToDOM() {}
+    insertToDOM() {
+        this.#parentEl.insertAdjacentHTML('afterbegin', this.createMarkup());
+    }
 
-    update () {}
+    update() {}
 }
 
-
-export default Select
+export default Select;
